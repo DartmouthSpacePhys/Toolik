@@ -1,0 +1,7 @@
+#!/bin/sh
+gray -d ngray-111.def graydata-111 
+ps2pdf gray.ps
+mv gray.pdf gray-111.pdf
+gray -d ngray-222.def graydata-222
+ps2pdf gray.ps
+mv gray.pdf gray-222.pdf

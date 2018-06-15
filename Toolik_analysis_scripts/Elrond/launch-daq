@@ -1,0 +1,14 @@
+#! /bin/bash
+
+killall mmap
+killall cmd
+killall acq_d
+killall python
+
+FILE=/data/charm2-launch-elrond.h
+
+echo "CHARM 2 Launch, Elrond ground data recording: " > $FILE
+echo "Interferometer Antennas 1,2,3,4" >> $FILE
+date >> $FILE
+
+mmap -d 0.1 -N 4096 -r 1111 -m /tmp/rtd/latest_acquisition.data -o /data/charm2-launch-elrond.data

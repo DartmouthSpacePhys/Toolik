@@ -1,0 +1,47 @@
+#!/bin/sh
+ cd /data1
+ for datafile in 201*-INT.data; do
+   # get the base part of the filename, strip off all directories
+   dummyfile=`basename $datafile`
+   echo $dummyfile > filename
+   ls -log $datafile >> filename
+   echo $datafile 
+   /data/bin/sono_toolik_imager_field_mod_4ch
+   /usr/local/bin/gray -d ngray-11.def graydata-11
+   ps2pdf gray.ps
+   mv gray.pdf $dummyfile-11.pdf
+   gzip graydata-11
+   mv graydata-11.gz $dummyfile-11.gray.gz
+   mv ngray-11.def $dummyfile-11.def
+   rm gray.ps
+   /usr/local/bin/gray -d ngray-22.def graydata-22
+   ps2pdf gray.ps
+   mv gray.pdf $dummyfile-22.pdf
+   gzip graydata-22
+   mv graydata-22.gz $dummyfile-22.gray.gz
+   mv ngray-22.def $dummyfile-22.def
+   rm gray.ps
+   /usr/local/bin/gray -d ngray-33.def graydata-33
+   ps2pdf gray.ps
+   mv gray.pdf $dummyfile-33.pdf
+   gzip graydata-33
+   mv graydata-33.gz $dummyfile-33.gray.gz
+   mv ngray-33.def $dummyfile-33.def
+   rm gray.ps
+   /usr/local/bin/gray -d ngray-44.def graydata-44
+   ps2pdf gray.ps
+   mv gray.pdf $dummyfile-44.pdf
+   gzip graydata-44
+   mv graydata-44.gz $dummyfile-44.gray.gz
+   mv ngray-44.def $dummyfile-44.def
+   rm gray.ps
+   cp $dummyfile-??.gray.gz /media/external-1/graydata_files/.
+   mv $dummyfile-??.gray.gz /media/external-2/graydata_files/.
+   cp $dummyfile-??.def  /media/external-1/graydata_files/.
+   mv $dummyfile-??.def  /media/external-2/graydata_files/.
+   cp $dummyfile-??.pdf /media/external-1/pdf_files/.
+   cp $dummyfile-??.pdf /media/external-2/pdf_files/.
+   mv $dummyfile-??.pdf /data/.
+   rm filename
+   mv $datafile /data/done/.
+ done

@@ -1,0 +1,32 @@
+#!/bin/sh
+ cd /data
+ for datafile in 201*-POL.data; do
+   # get the base part of the filename, strip off all directories
+   dummyfile=`basename $datafile`
+   echo $dummyfile > filename
+   ls -log $datafile >> filename
+   echo $datafile 
+   /data/bin/sono_toolik_imager_field_mod_2ch
+   /usr/local/bin/gray -d ngray-111.def graydata-111
+   ps2pdf gray.ps
+   mv gray.pdf $dummyfile-111.pdf
+   gzip graydata-111
+   mv graydata-111.gz $dummyfile-111.gray.gz
+   mv ngray-111.def $dummyfile-111.def
+   rm gray.ps
+   /usr/local/bin/gray -d ngray-222.def graydata-222
+   ps2pdf gray.ps
+   mv gray.pdf $dummyfile-222.pdf
+   gzip graydata-222
+   mv graydata-222.gz $dummyfile-222.gray.gz
+   mv ngray-222.def $dummyfile-222.def
+   rm gray.ps
+   mv $datafile done/.
+   cp $dummyfile-???.gray.gz /media/external-1/graydata_files/.
+   mv $dummyfile-???.gray.gz /media/external-2/graydata_files/.
+   cp $dummyfile-???.def  /media/external-1/graydata_files/.
+   mv $dummyfile-???.def  /media/external-2/graydata_files/.
+   cp $dummyfile-???.pdf /media/external-1/pdf_files/.
+   cp $dummyfile-???.pdf /media/external-2/pdf_files/.
+   rm filename
+ done
